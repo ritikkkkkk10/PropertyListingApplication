@@ -88,7 +88,7 @@ class RegisterActivity : AppCompatActivity() {
                     // Here, we'll assume you're using Firebase Realtime Database
                     userUid?.let { uid ->
 
-                        saveUidToSharedPreferences(uid)
+                        var name = firstName!!.text.toString() + " " + lastName!!.text.toString()
 
                         val userData = mapOf(
                             "firstName" to firstName!!.text.toString(),
@@ -97,6 +97,9 @@ class RegisterActivity : AppCompatActivity() {
                             "phone" to txtPhone,
                             "isAdmin" to isAdmin
                         )
+
+                        saveUidToSharedPreferences(uid, name, txtEmail, txtPhone, isAdmin)
+
                         FirebaseDatabase.getInstance().getReference("newUsers")
                             .child(uid)
                             .setValue(userData)
@@ -127,10 +130,14 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
     }
-    private fun saveUidToSharedPreferences(uid: String) {
+    private fun saveUidToSharedPreferences(uid: String,name: String, email: String, phone: String, isAdmin: Boolean) {
         val sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
         editor.putString("UID", uid)
+        editor.putString("Name", name)
+        editor.putString("Email", email)
+        editor.putString("Phone", phone)
+        editor.putBoolean("isAdmin", isAdmin)
         editor.apply()
     }
 

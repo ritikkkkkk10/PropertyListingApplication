@@ -8,7 +8,7 @@
 
     <com.google.android.material.card.MaterialCardView
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/card_view_rent_sell"
+        android:id="@+id/enter_property"
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginTop="24dp"
@@ -54,7 +54,7 @@
         app:cardBackgroundColor="@color/blue_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_view_rent_sell">
+        app:layout_constraintTop_toBottomOf="@id/enter_property">
 
         <TextView
             android:layout_width="wrap_content"
