@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DatabaseReference
@@ -28,6 +31,7 @@ class PropertyEditActivity : AppCompatActivity() {
     private lateinit var imageContainer: LinearLayout
     private lateinit var uploadImageButton: Button
     private lateinit var savePropertyButton: Button
+    private lateinit var progressBar: ProgressBar
 
     private val storageRef: StorageReference =
         FirebaseStorage.getInstance().reference.child("property_images")
@@ -51,6 +55,7 @@ class PropertyEditActivity : AppCompatActivity() {
         imageContainer = findViewById(R.id.imageContainer)
         uploadImageButton = findViewById(R.id.uploadImage)
         savePropertyButton = findViewById(R.id.saveProperty)
+        progressBar = findViewById(R.id.progressBar)
 
         uploadImageButton.setOnClickListener {
             if (imageUris.size < maxImages) {
@@ -102,6 +107,15 @@ class PropertyEditActivity : AppCompatActivity() {
     }
 
     private fun savePropertyDetails() {
+
+        progressBar.visibility = ProgressBar.VISIBLE
+
+        if (imageUris.isEmpty()) {
+            Snackbar.make(savePropertyButton, "Please upload at least one image", Snackbar.LENGTH_SHORT).show()
+            progressBar.visibility = ProgressBar.GONE
+            return
+        }
+
         val propertyData = mapOf(
             "propertyName" to propertyName.text.toString(),
             "location" to location.text.toString(),
@@ -120,6 +134,8 @@ class PropertyEditActivity : AppCompatActivity() {
                 uploadImages(propertyId)
 
             } else {
+                // Hide the ProgressBar if saving fails
+                progressBar.visibility = ProgressBar.GONE
                 Snackbar.make(savePropertyButton, "Failed to save property details", Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -144,6 +160,8 @@ class PropertyEditActivity : AppCompatActivity() {
                         }
                     }
                 } else {
+                    // Hide the ProgressBar if image upload fails
+                    progressBar.visibility = ProgressBar.GONE
                     Snackbar.make(savePropertyButton, "Failed to upload images", Snackbar.LENGTH_SHORT).show()
                 }
             }
@@ -154,12 +172,18 @@ class PropertyEditActivity : AppCompatActivity() {
         val propertyRef: DatabaseReference =
             FirebaseDatabase.getInstance().getReference("properties")
         propertyRef.child(propertyId).child("imageUrls").setValue(imageUrls).addOnCompleteListener { task ->
+            progressBar.visibility = ProgressBar.GONE
             if (task.isSuccessful) {
                 Snackbar.make(savePropertyButton, "Property saved successfully", Snackbar.LENGTH_SHORT).show()
-                finish() // Optionally finish the activity
+
+                // Delay finishing the activity to allow the Snackbar to be visible
+                Handler(Looper.getMainLooper()).postDelayed({
+                    finish() // Finish the activity after the Snackbar is shown
+                }, 1500) // Delay of 1.5 seconds
             } else {
                 Snackbar.make(savePropertyButton, "Failed to update image URLs", Snackbar.LENGTH_SHORT).show()
             }
         }
     }
+
 }

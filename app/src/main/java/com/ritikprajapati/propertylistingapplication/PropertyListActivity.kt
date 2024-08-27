@@ -1,7 +1,10 @@
 package com.ritikprajapati.propertylistingapplication
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,18 +20,26 @@ class PropertyListActivity : AppCompatActivity() {
     private lateinit var propertyAdapter: PropertyAdapter
     private var propertyList: MutableList<Property> = mutableListOf()
     private lateinit var databaseReference: DatabaseReference
+    private lateinit var progressBar: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_property_list)
 
+        progressBar = findViewById(R.id.progressBar)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        propertyAdapter = PropertyAdapter(propertyList)
+        recyclerView.adapter = propertyAdapter
+
+        progressBar.visibility = View.VISIBLE
 
         // Initialize the database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("properties")
 
-        fetchProperties()
+        Handler(Looper.getMainLooper()).postDelayed({
+            fetchProperties()
+        }, 200) // 3 seconds delay
     }
 
     private fun fetchProperties() {
@@ -42,6 +53,10 @@ class PropertyListActivity : AppCompatActivity() {
                 Log.d("PropertyList", "Fetched ${propertyList.size} properties")
                 propertyAdapter = PropertyAdapter(propertyList)
                 recyclerView.adapter = propertyAdapter
+
+                // Hide the progress bar and show the RecyclerView
+                        progressBar.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

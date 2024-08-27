@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="30dp"
-    app:layout_constraintCircleRadius="5dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,31 +6,88 @@
     android:background="@drawable/blue_back"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:clickable="true"
+    android:focusable="true"
     android:padding="8dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name - "
+            android:textColor="@color/grey"/>
+
     <TextView
+        android:layout_toRightOf="@id/name"
         android:id="@+id/propertyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
         android:text="hskvifkjvndfszkjvsn"
         android:textStyle="bold" />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/locate"
+            android:text="Location - "
+            android:textColor="@color/grey"/>
+
     <TextView
+        android:layout_toRightOf="@id/locate"
         android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="uihjghv"
         android:textSize="16sp" />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cost"
+        android:text="Price - "
+        android:textColor="@color/grey"/>
+
+    <TextView
+        android:layout_toRightOf="@id/cost"
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="fghvhbn"
         android:textSize="16sp"/>
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/describe"
+        android:text="Description - "
+        android:textColor="@color/grey"/>
+
+
+    <TextView
+        android:layout_toRightOf="@id/describe"
         android:id="@+id/shortDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,6 +96,6 @@
         android:maxLines="2"
         android:ellipsize="end" />
 
-</LinearLayout>
+    </RelativeLayout>
 
-</ScrollView>
+</LinearLayout>

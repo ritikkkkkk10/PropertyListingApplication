@@ -13,11 +13,17 @@
         android:theme="@style/Theme.PropertyListingApplication"
         tools:targetApi="31">
         <activity
-            android:name=".PropertyListActivity"
+            android:name=".PropertyDetailActivity"
+            android:parentActivityName=".PropertyListActivity"
             android:exported="false" />
         <activity
+            android:name=".PropertyListActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".PropertyEditActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false" />
