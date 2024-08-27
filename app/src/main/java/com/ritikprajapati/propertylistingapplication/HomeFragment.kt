@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DatabaseReference
 import com.ritikprajapati.propertylistingapplication.databinding.FragmentHomeBinding
 
@@ -28,6 +29,11 @@ class HomeFragment : Fragment() {
 
         if(isAdmin) {
             binding.enterProperty.setOnClickListener {startActivity(Intent(context, PropertyEditActivity::class.java))}
+         }
+        else {
+            binding.enterProperty.setOnClickListener {
+                Snackbar.make(binding.root, "Only admins allowed in this field!", Snackbar.LENGTH_SHORT).show()
+            }
         }
 
         return binding.root
