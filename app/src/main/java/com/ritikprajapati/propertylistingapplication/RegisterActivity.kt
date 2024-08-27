@@ -7,6 +7,8 @@ import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -14,6 +16,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class RegisterActivity : AppCompatActivity() {
+
+    private var radioGroupAdmin: RadioGroup? = null
+    private var radioYes: RadioButton? = null
+    private var radioNo: RadioButton? = null
+
     var firstName: TextInputEditText? = null
     var lastName: TextInputEditText? = null
     var email: TextInputEditText? = null
@@ -32,10 +39,16 @@ class RegisterActivity : AppCompatActivity() {
         register = findViewById(R.id.button_create_account)
         auth = FirebaseAuth.getInstance()
 
+        radioGroupAdmin = findViewById(R.id.radioGroupAdmin)
+        radioYes = findViewById(R.id.radioYes)
+        radioNo = findViewById(R.id.radioNo)
+
+
         val registerButton = register
         val txt_email = email
         val txt_password = password
         val txt_phone = phone
+
         registerButton?.setOnClickListener(View.OnClickListener {
 
             hideKeyboard()
@@ -48,12 +61,21 @@ class RegisterActivity : AppCompatActivity() {
             else if (passwordText.length < 6) {
                 Snackbar.make(this@RegisterActivity.currentFocus!!, "Password too short!", Snackbar.LENGTH_SHORT).show()
             } else {
-                registerUser( passwordText, phoneText, emailText)
+                val isAdmin = getAdminSelection()
+                registerUser( passwordText, phoneText, emailText, isAdmin)
             }
         })
     }
 
-    private fun registerUser(txtPassword: String, txtPhone: String, txtEmail: String) {
+    private fun getAdminSelection(): Boolean {
+        return when (radioGroupAdmin?.checkedRadioButtonId) {
+            R.id.radioYes -> true
+            R.id.radioNo -> false
+            else -> false
+        }
+    }
+
+    private fun registerUser(txtPassword: String, txtPhone: String, txtEmail: String, isAdmin: Boolean) {
         auth!!.createUserWithEmailAndPassword(txtEmail, txtPassword)
             .addOnCompleteListener(this@RegisterActivity) { task ->
                 //hello
@@ -72,7 +94,8 @@ class RegisterActivity : AppCompatActivity() {
                             "firstName" to firstName!!.text.toString(),
                             "lastName" to lastName!!.text.toString(),
                             "email" to txtEmail,
-                            "phone" to txtPhone
+                            "phone" to txtPhone,
+                            "isAdmin" to isAdmin
                         )
                         FirebaseDatabase.getInstance().getReference("newUsers")
                             .child(uid)
