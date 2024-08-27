@@ -8,7 +8,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.ritikprajapati.propertylistingapplication.databinding.ActivityMainBinding
 
@@ -19,9 +23,21 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        // Initialize binding
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
+
+        binding.pager.adapter = ScreenSlidePagerAdapter(this)
+
+        TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Home"
+                1 -> tab.text = "Favourites"
+            }
+        }.attach()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -54,5 +70,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return menuClickHandled
+    }
+    private class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = 2
+        override fun createFragment(position: Int): Fragment {
+            return when (position) {
+                0 -> HomeFragment()
+                else -> FavoritesFragment()
+            }
+        }
     }
 }
