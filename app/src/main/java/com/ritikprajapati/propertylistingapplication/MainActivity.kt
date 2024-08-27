@@ -15,20 +15,13 @@ import com.ritikprajapati.propertylistingapplication.databinding.ActivityMainBin
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var signout: Button
     private var auth: FirebaseAuth? = null
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        signout = findViewById(R.id.logout)
         auth = FirebaseAuth.getInstance()
-
-        signout.setOnClickListener {
-            auth?.signOut() // Sign out the user
-            navigateToLogin() // Navigate to the login screen
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -61,12 +54,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return menuClickHandled
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, startActivity::class.java) // Change to your login activity
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // Clear the activity stack
-        startActivity(intent)
-        finish() // Optional: Close the current activity
     }
 }
