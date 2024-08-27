@@ -25,7 +25,6 @@ class startActivity : AppCompatActivity() {
         })
         loginButton?.setOnClickListener(View.OnClickListener {
             startActivity(Intent(this@startActivity, LoginActivity::class.java))
-            finish()
         })
     }
 
