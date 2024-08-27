@@ -1,9 +1,130 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PropertyEditActivity">
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="ExtraText">
+
+        <!-- Other fields -->
+
+        <EditText
+            android:id="@+id/propertyName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Property Name"/>
+
+        <EditText
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Location"/>
+
+        <EditText
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price"
+            android:inputType="number"/>
+
+        <EditText
+            android:id="@+id/shortDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Short Description"
+            android:maxLines="3"
+            android:lines="2"
+            android:scrollbars="vertical"/>
+
+        <EditText
+            android:id="@+id/longDescription"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:hint="Long Description"
+            android:gravity="top"
+            android:lines="8"
+            android:scrollbars="vertical"
+            android:padding="8dp"
+            android:textColorHint="@android:color/black"/>
+
+        <EditText
+            android:id="@+id/contactPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contact Phone"/>
+
+        <EditText
+            android:id="@+id/contactEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contact Email"
+            android:inputType="textEmailAddress"/>
+
+        <!-- Image placeholders -->
+        <LinearLayout
+            android:id="@+id/imageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:visibility="gone"
+                android:layout_margin="4dp"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/image2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:visibility="gone"
+                android:layout_margin="4dp"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/image3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:visibility="gone"
+                android:layout_margin="4dp"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/image4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:visibility="gone"
+                android:layout_margin="4dp"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/image5"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:visibility="gone"
+                android:layout_margin="4dp"
+                android:scaleType="centerCrop"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/uploadImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload Image"/>
+
+        <Button
+            android:id="@+id/saveProperty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Property"/>
+    </LinearLayout>
+</ScrollView>
