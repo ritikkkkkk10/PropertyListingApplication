@@ -45,9 +45,9 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-//        findViewById<Button>(R.id.button_forgot_password).setOnClickListener {
-//            startActivity(Intent(this, ForgotPasswordActivity::class.java))
-//        }
+        findViewById<Button>(R.id.button_forgot_password).setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        }
     }
 
     private fun hideKeyboard() {
