@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.PropertyListingApplication" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/blue_300</item>
+        <item name="colorSecondary">@color/blue_200</item>
+        <item name="android:colorBackground">@color/blue_400</item>
+
+        <item name="android:buttonStyle">@style/CustomButtonStyle</item>
+    </style>
+
+    <style name="Theme.PropertyListingApplication" parent="Base.Theme.PropertyListingApplication" />
+    <style name="CustomButtonStyle" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/blue_300</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

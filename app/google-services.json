@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "36964370046",
+    "project_id": "propertylistingapp-a2505",
+    "storage_bucket": "propertylistingapp-a2505.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36964370046:android:6adb518ffd9f16095aba2f",
+        "android_client_info": {
+          "package_name": "com.ritikprajapati.propertylistingapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNSVeXDQHg8sJ9mNFj1R1CrxCVyl3TRE0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
