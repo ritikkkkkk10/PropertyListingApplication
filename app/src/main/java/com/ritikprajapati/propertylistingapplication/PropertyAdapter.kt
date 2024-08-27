@@ -1,35 +1,36 @@
 package com.ritikprajapati.propertylistingapplication
 
-// PropertyAdapter.kt
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.ritikprajapati.propertylistingapplication.databinding.ItemPropertyBinding
 
-class PropertyAdapter(private val properties: List<Property>) :
-    RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
-
-    class PropertyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val propertyName: TextView = view.findViewById(R.id.propertyName)
-        val location: TextView = view.findViewById(R.id.location)
-        val price: TextView = view.findViewById(R.id.price)
-        val shortDescription: TextView = view.findViewById(R.id.shortDescription)
-    }
+class PropertyAdapter(private val propertyList: List<Property>) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_property, parent, false)
-        return PropertyViewHolder(view)
+        val binding = ItemPropertyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PropertyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
-        val property = properties[position]
-        holder.propertyName.text = property.propertyName
-        holder.location.text = property.location
-        holder.price.text = property.price
-        holder.shortDescription.text = property.shortDescription
+        val property = propertyList[position]
+        holder.bind(property)
     }
 
-    override fun getItemCount() = properties.size
+    override fun getItemCount() = propertyList.size
+
+    inner class PropertyViewHolder(private val binding: ItemPropertyBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(property: Property) {
+            binding.propertyName.text = property.propertyName
+            binding.location.text = property.location
+            binding.price.text = property.price
+            binding.shortDescription.text = property.shortDescription
+
+            // Optionally, handle click events to show detailed view
+            itemView.setOnClickListener {
+                // Handle click to show detailed view of the property
+            }
+        }
+    }
 }

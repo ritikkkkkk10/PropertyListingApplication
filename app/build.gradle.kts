@@ -44,7 +44,7 @@ android {
 dependencies {
 
         implementation ("com.github.bumptech.glide:glide:4.14.2")
-        annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
 
 
     implementation("androidx.core:core-ktx:1.13.1")

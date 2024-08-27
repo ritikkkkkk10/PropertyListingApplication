@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="30dp"
+    app:layout_constraintCircleRadius="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@drawable/blue_back"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp">
@@ -17,21 +26,25 @@
         android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="uihjghv"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@android:color/holo_green_dark" />
+        android:text="fghvhbn"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/shortDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
+        android:text="ghvjhbhj"
         android:maxLines="2"
         android:ellipsize="end" />
 
 </LinearLayout>
+
+</ScrollView>

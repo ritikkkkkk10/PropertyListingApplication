@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
                 Snackbar.make(binding.root, "Only admins allowed in this field!", Snackbar.LENGTH_SHORT).show()
             }
         }
+        binding.cardViewProperties.setOnClickListener { startActivity(Intent(context, PropertyListActivity::class.java)) }
 
         return binding.root
     }
