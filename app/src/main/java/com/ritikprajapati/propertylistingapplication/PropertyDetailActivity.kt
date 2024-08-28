@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.bumptech.glide.Glide
+import com.google.firebase.database.FirebaseDatabase
 import com.ritikprajapati.propertylistingapplication.databinding.ActivityPropertyDetailBinding
 
 class PropertyDetailActivity : AppCompatActivity() {
@@ -16,6 +18,9 @@ class PropertyDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPropertyDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val uid = sharedPref.getString("UID", "")
 
         // Retrieve data from intent
         val propertyId = intent.getStringExtra("propertyId") // Ensure propertyId is passed in Intent
@@ -70,9 +75,34 @@ class PropertyDetailActivity : AppCompatActivity() {
         binding.favorites.setOnClickListener {
             if (propertyId != null) {
                 saveToFavorites(propertyId)
+                saveToDatabaseFavorites(uid, propertyId)
             }
         }
     }
+
+    private fun saveToDatabaseFavorites(uid: String?, propertyId: String) {
+        // Ensure uid is not null
+        if (uid == null) return
+
+        // Get a reference to the Firebase Realtime Database
+        val database = FirebaseDatabase.getInstance()
+
+        // Reference to the favorites node under the user's uid
+        val favoritesRef = database.getReference("favorites").child(uid)
+
+        // Store the propertyId under the user's favorites
+        // Use propertyId as the key with a value of true (or any value you prefer)
+        favoritesRef.push().setValue(propertyId)
+            .addOnSuccessListener {
+                // Handle success (e.g., show a message to the user)
+                Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { exception ->
+                // Handle failure (e.g., show an error message to the user)
+                Toast.makeText(this, "Failed to add to favorites: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 
     private fun saveToFavorites(propertyId: String) {
         val sharedPreferences: SharedPreferences = getSharedPreferences("FAVORITES", Context.MODE_PRIVATE)

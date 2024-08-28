@@ -46,57 +46,89 @@ class FavoritesFragment : Fragment() {
         databaseReference = FirebaseDatabase.getInstance().getReference("properties")
 
         Handler(Looper.getMainLooper()).postDelayed({
-            fetchFavorites()
+            fetchFavorites{
+                    favoriteIds ->
+                // Fetch properties only after fetching the favorite IDs
+                fetchFavoriteProperties(favoriteIds)
+            }
         }, 200) // 3 seconds delay
 
         return view
     }
 
-    private fun fetchFavorites() {
-        val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences("FAVORITES", Context.MODE_PRIVATE)
-        val favoriteIds = sharedPreferences.getStringSet("favorites_list", mutableSetOf()) ?: mutableSetOf()
+    private fun fetchFavorites(onComplete: (Set<String>) -> Unit) {
+        val sharedPref = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val uid = sharedPref.getString("UID", "")
 
-        Log.d("FavoritesFragment", "Favorite IDs from SharedPreferences: $favoriteIds")
-
-        // Ensure that the favorites list is not empty
-        if (favoriteIds.isEmpty()) {
-            Log.d("FavoritesFragment", "No favorite properties found.")
+        if (uid.isNullOrEmpty()) {
+            Log.e("FavoritesFragment", "UID is null or empty")
             progressBar.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
             return
         }
 
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                propertyList.clear() // Clear previous data
+        val favoritesRef = FirebaseDatabase.getInstance().getReference("favorites").child(uid)
+        val favoriteIds = mutableSetOf<String>()
 
+        favoritesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // Iterate over the children and add each propertyId to the set
                 for (snapshot in dataSnapshot.children) {
-                    val propertyId = snapshot.key // Get the unique propertyId
-                    if (propertyId in favoriteIds) {
-                        val property = snapshot.getValue(Property::class.java)
-                        if (property != null) {
-                            if (propertyId != null) {
-                                property.propertyId = propertyId
-                            }
-                            propertyList.add(property)
-                        }
+                    snapshot.getValue(String::class.java)?.let { favoriteId ->
+                        favoriteIds.add(favoriteId)
                     }
                 }
-
-                Log.d("FavoritesFragment", "Fetched ${propertyList.size} favorite properties")
-                propertyAdapter.notifyDataSetChanged()
-
-                // Hide the progress bar and show the RecyclerView
-                progressBar.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
+                // Return the set of favoriteIds
+                onComplete(favoriteIds)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Handle possible errors.
-                Log.e("FavoritesFragment", "Error fetching favorites", databaseError.toException())
+                // Handle any errors here
+                Log.e("FirebaseError", "Failed to fetch favorites: ${databaseError.message}")
             }
         })
     }
+
+        fun fetchFavoriteProperties(favoriteIds: Set<String>) {
+            if (favoriteIds.isEmpty()) {
+                Log.d("FavoritesFragment", "No favorite properties found.")
+                progressBar.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+                return
+            }
+
+            databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    propertyList.clear() // Clear previous data
+
+                    for (snapshot in dataSnapshot.children) {
+                        val propertyId = snapshot.key // Get the unique propertyId
+                        if (propertyId in favoriteIds) {
+                            val property = snapshot.getValue(Property::class.java)
+                            if (property != null) {
+                                if (propertyId != null) {
+                                    property.propertyId = propertyId
+                                }
+                                propertyList.add(property)
+                            }
+                        }
+                    }
+
+                    Log.d("FavoritesFragment", "Fetched ${propertyList.size} favorite properties")
+                    propertyAdapter.notifyDataSetChanged()
+
+                    // Hide the progress bar and show the RecyclerView
+                    progressBar.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Handle possible errors.
+                    Log.e("FavoritesFragment", "Error fetching favorites", databaseError.toException())
+                }
+            })
+        }
 
 
 }

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -21,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
     private var password: TextInputEditText? = null
     private var login: Button? = null
     private var auth: FirebaseAuth? = null
+    private lateinit var progressBar: ProgressBar
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
         password = findViewById(R.id.text_password)
         login = findViewById(R.id.button_login)
         auth = FirebaseAuth.getInstance()
+        progressBar = findViewById(R.id.progressBar)
 
         val loginButton = login
         val txt_email = email
@@ -63,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginUser(Email: String, Password: String) {
+        progressBar.visibility = ProgressBar.VISIBLE
         auth!!.signInWithEmailAndPassword(Email, Password)
             ?.addOnSuccessListener { authResult ->
                 val uid = authResult.user!!.uid
@@ -82,12 +86,14 @@ class LoginActivity : AppCompatActivity() {
                 val view = currentFocus ?: findViewById<View>(android.R.id.content)
                 // Check if the failure is due to the user not being registered
                 if (exception.message?.contains("no user record") == true) {
+                    progressBar.visibility = ProgressBar.GONE
                     Snackbar.make(
                         view,
                         "No account found with this email. Please register first.",
                         Snackbar.LENGTH_LONG
                     ).show()
                 } else {
+                    progressBar.visibility = ProgressBar.GONE
                     // Handle other possible errors (e.g., wrong password)
                     Snackbar.make(
                         view,

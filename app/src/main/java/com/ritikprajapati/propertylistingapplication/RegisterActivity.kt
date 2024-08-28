@@ -1,5 +1,6 @@
 package com.ritikprajapati.propertylistingapplication
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +22,7 @@ class RegisterActivity : AppCompatActivity() {
     private var radioGroupAdmin: RadioGroup? = null
     private var radioYes: RadioButton? = null
     private var radioNo: RadioButton? = null
+    private lateinit var progressBar: ProgressBar
 
     var firstName: TextInputEditText? = null
     var lastName: TextInputEditText? = null
@@ -28,6 +31,7 @@ class RegisterActivity : AppCompatActivity() {
     var password: TextInputEditText? = null
     var register: Button? = null
     private var auth: FirebaseAuth? = null
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -42,6 +46,7 @@ class RegisterActivity : AppCompatActivity() {
         radioGroupAdmin = findViewById(R.id.radioGroupAdmin)
         radioYes = findViewById(R.id.radioYes)
         radioNo = findViewById(R.id.radioNo)
+        progressBar = findViewById(R.id.progressBar)
 
 
         val registerButton = register
@@ -51,14 +56,25 @@ class RegisterActivity : AppCompatActivity() {
 
         registerButton?.setOnClickListener(View.OnClickListener {
 
+            progressBar.visibility = ProgressBar.VISIBLE
             hideKeyboard()
 
             val emailText = txt_email?.text.toString()
             val passwordText = txt_password?.text.toString()
             val phoneText = txt_phone?.text.toString();
-            if (TextUtils.isEmpty(emailText) || TextUtils.isEmpty(passwordText) || TextUtils.isEmpty(phoneText))
-                Snackbar.make(this@RegisterActivity.currentFocus!!, "Missing Credentials!", Snackbar.LENGTH_SHORT).show()
+            if (TextUtils.isEmpty(emailText) || TextUtils.isEmpty(passwordText) || TextUtils.isEmpty(
+                    phoneText
+                )
+            ) {
+                progressBar.visibility = ProgressBar.GONE
+                Snackbar.make(
+                    this@RegisterActivity.currentFocus!!,
+                    "Missing Credentials!",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+        }
             else if (passwordText.length < 6) {
+                progressBar.visibility = ProgressBar.GONE
                 Snackbar.make(this@RegisterActivity.currentFocus!!, "Password too short!", Snackbar.LENGTH_SHORT).show()
             } else {
                 val isAdmin = getAdminSelection()
@@ -122,6 +138,7 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
                 else {
+                    progressBar.visibility = ProgressBar.GONE
                     Snackbar.make(
                         this@RegisterActivity.currentFocus!!,
                         "Registration failed!: ${task.exception?.message}",
