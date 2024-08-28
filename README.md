@@ -1,74 +1,63 @@
-# PropertyListingApplication
-Property Listing Application
 Overview
-The Property Listing Application is an Android app designed to help users browse and manage property listings. The app integrates with Firebase for real-time data updates and user authentication. Users can view a list of properties, search for specific properties, and mark their favorite properties for quick access.
+This app allows users to view and manage property listings. Users can log in or register, view property details, add properties to their favorites, and if they are administrators, add new properties to the system. The app also features a search functionality to help users find properties based on their requirements.
 
-Features
-Browse Properties: View a list of properties with details including name, location, price, and description.
-Search Functionality: Search for properties based on name, location, or price.
-Favorites: Mark properties as favorites and view them in a dedicated favorites section.
-Real-Time Updates: Get real-time updates on property listings from Firebase.
-User Authentication: Sign in and sign out using Firebase Authentication.
+Getting Started
 Prerequisites
-Android Studio: Ensure you have Android Studio installed for development and testing.
-Firebase Account: Set up a Firebase project and configure it for your Android app.
-Dependencies: Make sure to include the necessary Firebase and AndroidX dependencies in your build.gradle files.
+Android Studio: Ensure you have Android Studio installed on your computer.
+Firebase Setup: Make sure you have set up Firebase for your project and added the necessary configuration files (google-services.json).
 Setup
-1. Firebase Setup
-   Create a Firebase Project:
-
-Go to the Firebase Console.
-Create a new project or use an existing one.
-Add Firebase to Your Android App:
-
-Download the google-services.json file from Firebase and place it in the app directory of your project.
-Add the Firebase SDK dependencies to your build.gradle files.
-2. Project Configuration
-   Clone the Repository:
+Clone the Repository:
 
 bash
 Copy code
 git clone <repository-url>
-cd <repository-directory>
-Open the Project in Android Studio:
+Open the Project:
 
-Open Android Studio and select "Open an existing project."
-Navigate to the project directory and open it.
-Sync Gradle:
+Launch Android Studio.
+Select "Open an existing project."
+Navigate to the directory where you cloned the repository and select it.
+Add Required Dependencies:
 
-Click "Sync Now" in the notification bar or use File > Sync Project with Gradle Files.
-Build and Run:
+Open build.gradle files (both project-level and app-level).
+Add the required dependencies, such as Firebase and AndroidX libraries, to your build.gradle files.
+Sync the project with Gradle files.
+Build APK:
 
-Connect an Android device or use an emulator.
-Build and run the application from Android Studio.
+Go to Build > Build Bundle(s) / APK(s) > Build APK(s) in Android Studio.
+Wait for the build process to complete.
+Install the APK:
+
+Once the APK is built, you can install it on an Android emulator or a physical Android device.
 Usage
-Main Features
+Launch the App:
+
+Open the installed APK on your emulator or Android device.
+Login or Register:
+
+The first screen will prompt you to log in or register.
+Choose the appropriate option based on whether you are a new user or an existing user.
+Select User Type:
+
+After logging in or registering, you will need to select whether you are an admin or a regular user.
+Admin: You will have special access to add new properties.
+Regular User: You will be able to view and manage properties but cannot add new ones.
 Home Screen:
 
-The Home screen displays a list of all available properties. You can scroll through the list to view property details.
-Search Functionality:
+If you are an admin, you will see an option to add properties.
+Click on the "Add Property" option and enter the required details to add a new property.
+If you are not an admin, you will see an option to view all properties.
+Click on "View Properties" to see the list of available properties.
+View Property Details:
 
-Use the search bar to filter properties based on name, location, or price. As you type, the list updates to show matching properties.
+Click on a property from the list to view its details, including its description, price, location, and images.
+You will have the option to add the property to your favorites.
 Favorites:
 
-Mark properties as favorites by clicking the heart icon (assuming this feature is integrated in your PropertyAdapter).
-Navigate to the Favorites tab to view a list of properties you've marked as favorites. This list is dynamically updated based on the IDs stored in SharedPreferences.
-User Authentication:
+Navigate to the "Favorites" tab in the main screen to view all the properties you have marked as favorites.
+You can manage and view your favorite properties in this section.
+Search Properties:
 
-Sign in using your Firebase Authentication setup. Click the logout button in the toolbar to sign out.
-User Interface Components
-PropertyListActivity: Displays the list of properties with search functionality.
-FavoritesFragment: Shows the list of favorite properties. Fetches favorites from SharedPreferences and displays them.
-HomeFragment: Displays the main screen with the list of properties.
-ActivityMainBinding: Manages the main activity layout with tabs and view pager.
-Troubleshooting
-Firebase Authentication Issues:
-
-Ensure that Firebase Authentication is correctly set up and that you have the right configuration in google-services.json.
-Empty Favorites List:
-
-Check that your SharedPreferences key matches ("favorites_list") and that the IDs are correctly stored and retrieved.
-Search Not Working:
-
-Verify that the search functionality correctly filters properties based on the search query.
-
+In the PropertyList Screen, use the search functionality to filter properties based on your requirements.
+Enter search criteria such as property name, location, or price to find properties that match your needs.
+Contributing
+Contributions are welcome! Please follow the standard Git workflow (fork, create a branch, make changes, create a pull request) to contribute to the project.
