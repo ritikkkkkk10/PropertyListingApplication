@@ -6,6 +6,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,7 @@ class PropertyListActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Toast.makeText(this, "Click on properties to get more details", Toast.LENGTH_LONG).show()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_property_list)
 
