@@ -1,6 +1,7 @@
 package com.ritikprajapati.propertylistingapplication
 
 data class Property(
+    var propertyId: String = "",
     val propertyName: String = "",
     val location: String = "",
     val price: String = "",

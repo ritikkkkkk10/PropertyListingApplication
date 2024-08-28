@@ -52,7 +52,11 @@ class PropertyListActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 propertyList.clear() // Clear previous data
                 for (snapshot in dataSnapshot.children) {
+                    val propertyId = snapshot.key // Get the unique propertyId
                     val property = snapshot.getValue(Property::class.java)
+                    if (propertyId != null) {
+                        property?.propertyId = propertyId
+                    } // Assign the propertyId
                     property?.let { propertyList.add(it) }
                 }
                 Log.d("PropertyList", "Fetched ${propertyList.size} properties")

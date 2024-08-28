@@ -42,6 +42,7 @@ class PropertyAdapter(private val propertyList: List<Property>) : RecyclerView.A
 
                 val context = it.context
                 val intent = Intent(context, PropertyDetailActivity::class.java).apply {
+                    putExtra("propertyId", property.propertyId)  // Pass the propertyId
                     putExtra("propertyName", property.propertyName)
                     putExtra("location", property.location)
                     putExtra("price", property.price)
