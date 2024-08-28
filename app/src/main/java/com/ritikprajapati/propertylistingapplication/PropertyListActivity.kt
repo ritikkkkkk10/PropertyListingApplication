@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,7 @@ class PropertyListActivity : AppCompatActivity() {
     private var propertyList: MutableList<Property> = mutableListOf()
     private lateinit var databaseReference: DatabaseReference
     private lateinit var progressBar: View
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,7 @@ class PropertyListActivity : AppCompatActivity() {
 
         progressBar = findViewById(R.id.progressBar)
         recyclerView = findViewById(R.id.recyclerView)
+        searchView = findViewById(R.id.searchView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         propertyAdapter = PropertyAdapter(propertyList)
         recyclerView.adapter = propertyAdapter
@@ -40,6 +43,8 @@ class PropertyListActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             fetchProperties()
         }, 200) // 3 seconds delay
+
+        setupSearchView()
     }
 
     private fun fetchProperties() {
@@ -63,5 +68,27 @@ class PropertyListActivity : AppCompatActivity() {
                 // Handle possible errors.
             }
         })
+    }
+    private fun setupSearchView() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterProperties(newText)
+                return true
+            }
+        })
+    }
+    private fun filterProperties(query: String?) {
+        val filteredList = propertyList.filter { property ->
+            property.propertyName.contains(query ?: "", ignoreCase = true) ||
+                    property.location.contains(query ?: "", ignoreCase = true) ||
+                    property.price.contains(query ?: "", ignoreCase = true)
+        }
+
+        propertyAdapter = PropertyAdapter(filteredList)
+        recyclerView.adapter = propertyAdapter
     }
 }

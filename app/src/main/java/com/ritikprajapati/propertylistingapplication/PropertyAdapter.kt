@@ -3,13 +3,12 @@ package com.ritikprajapati.propertylistingapplication
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.ritikprajapati.propertylistingapplication.databinding.ItemPropertyBinding
 
-class PropertyAdapter(private val propertyList: MutableList<Property>) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
+class PropertyAdapter(private val propertyList: List<Property>) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
         val binding = ItemPropertyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -23,11 +22,11 @@ class PropertyAdapter(private val propertyList: MutableList<Property>) : Recycle
 
     override fun getItemCount() = propertyList.size
 
-    fun updateData(newList: List<Property>) {
-        propertyList.clear()
-        propertyList.addAll(newList)
-        notifyDataSetChanged()
-    }
+//    fun updateData(newList: List<Property>) {
+//        propertyList.clear()
+//        propertyList.addAll(newList)
+//        notifyDataSetChanged()
+//    }
 
     inner class PropertyViewHolder(private val binding: ItemPropertyBinding) :
         RecyclerView.ViewHolder(binding.root) {
